@@ -8,7 +8,15 @@ export interface Shortcut {
   label: string;
 }
 
-export function ShortcutsLegend({ shortcuts }: { shortcuts: Shortcut[] }) {
+interface ShortcutsLegendProps {
+  shortcuts: Shortcut[];
+  align?: "left" | "right";
+}
+
+export function ShortcutsLegend({
+  shortcuts,
+  align = "right",
+}: ShortcutsLegendProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -52,7 +60,9 @@ export function ShortcutsLegend({ shortcuts }: { shortcuts: Shortcut[] }) {
           id={popupId}
           role="dialog"
           aria-labelledby={headingId}
-          className="absolute right-0 top-full mt-2 w-72 card-raise p-3 z-30 animate-fade-in shadow-2xl"
+          className={`absolute ${
+            align === "left" ? "left-0" : "right-0"
+          } top-full mt-2 w-72 max-w-[calc(100vw-2rem)] card-raise p-3 z-30 animate-fade-in shadow-2xl`}
         >
           <div
             id={headingId}
@@ -64,10 +74,10 @@ export function ShortcutsLegend({ shortcuts }: { shortcuts: Shortcut[] }) {
             {shortcuts.map((s) => (
               <li
                 key={s.label}
-                className="flex items-center justify-between px-2 py-1.5 rounded hover:bg-white/[0.03]"
+                className="flex items-center justify-between gap-3 px-2 py-1.5 rounded hover:bg-white/[0.03]"
               >
                 <span className="text-[13px] text-[var(--fg)]">{s.label}</span>
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1 shrink-0">
                   {s.keys.map((k, i) => (
                     <kbd key={i} className="kbd">
                       {k}

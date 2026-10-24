@@ -116,4 +116,26 @@ describe("ShortcutsLegend", () => {
     const dialog = await screen.findByRole("dialog");
     expect(button.getAttribute("aria-controls")).toBe(dialog.id);
   });
+
+  it("aligns the popup to the left when align is left", () => {
+    render(<ShortcutsLegend shortcuts={shortcuts} align="left" />);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /keyboard shortcuts/i }),
+    );
+
+    expect(screen.getByRole("dialog")).toHaveClass("left-0");
+    expect(screen.getByRole("dialog")).not.toHaveClass("right-0");
+  });
+
+  it("aligns the popup to the right by default", () => {
+    render(<ShortcutsLegend shortcuts={shortcuts} />);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /keyboard shortcuts/i }),
+    );
+
+    expect(screen.getByRole("dialog")).toHaveClass("right-0");
+    expect(screen.getByRole("dialog")).not.toHaveClass("left-0");
+  });
 });
